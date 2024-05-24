@@ -30,6 +30,7 @@ public class ChainsysA extends HttpServlet {
 	RegisterPojo register = new RegisterPojo(); 
 	RegisterDetails details = new RegisterDetails();
 
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -45,25 +46,25 @@ public class ChainsysA extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		//System.out.println("In get method");
-	 
 	  String name= request.getParameter("name");
 	  String password= request.getParameter("password");
 	  String confirmpassword= request.getParameter("confirm password");
 	  String email= request.getParameter("email");
 	  String contactno=request.getParameter("contact no");
+	  int id=Integer.parseInt(request.getParameter("id"));
 	  /*PrintWriter out=response.getWriter();
 	  out.println(name);
 	  out.println(password);
 	  out.println(confirmpassword);
 	  out.println(email);
 	  out.println(contactno);*/
+	 
 	  register.setName(name); 
 	  register.setPassword(password);
 	  register.setConfirmpassword(confirmpassword);
 	  register.setEmail(email);
 	  register.setContactno(contactno);
+	  register.setId(id);
 	  try {
 		details.saveRegister(register);
 	} catch (SQLException e) {
@@ -74,15 +75,11 @@ public class ChainsysA extends HttpServlet {
 		e.printStackTrace();
 	}
 	  System.out.println("list");
-	  RegisterPojo register = new RegisterPojo(name,password,confirmpassword,email,contactno);
+	  RegisterPojo register = new RegisterPojo(name,password,confirmpassword,email,contactno,id);
 	  list.add(register);
       request.setAttribute("list",list);
 	  RequestDispatcher dispatcher = request.getRequestDispatcher("table.jsp");
 	  dispatcher.forward(request, response);
-		
-	 
-		
-		
 }
 	/**
 	 * @param  
@@ -91,9 +88,30 @@ public class ChainsysA extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		//System.out.println("In post method from First.html";
-		 
+		String action = request.getParameter("action");
+        if(action != null && action.equals("Delete")) {
+                    int id=Integer.parseInt(request.getParameter("deleteid"));
+            try {
+                details.deleteRegister(id);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+          /*ArrayList<RegisterPojo> list = null;
+            try {
+                list= details.getAllUsers();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }*/
+           // request.setAttribute("list",list);
+            request.getRequestDispatcher("table.jsp").forward(request, response);
+        }
+
 	}
 }
+
 
 

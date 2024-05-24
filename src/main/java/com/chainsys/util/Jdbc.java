@@ -20,7 +20,7 @@ public class Jdbc{
 	}*/
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		String url = "jdbc:mysql://localhost:3306/day3";
+		String url = "jdbc:mysql://localhost:3306/day4";
 		String userName = "root";
 		String password = "ajith123";
 	    String query = "select * from register";
@@ -35,7 +35,7 @@ public class Jdbc{
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/day3", "root", "ajith123");
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/day4", "root", "ajith123");
 		return connection;
 
 	}

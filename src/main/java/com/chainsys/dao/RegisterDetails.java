@@ -12,20 +12,23 @@ import com.chainsys.util.Jdbc;
 
 public class RegisterDetails implements Register {
 
+
+
 	public void saveRegister(RegisterPojo register) throws SQLException, ClassNotFoundException {
 
 		// Connection con;
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		try {
 			Connection connection = Jdbc.getConnection();
-			String query = "insert into register(name,password,confirm_password,email,contact_no) values(?,?,?,?,?)";
+			String query = "insert into register(name,password,confirm_password,email,contact_no,id) values(?,?,?,?,?,?)";
 			PreparedStatement prepare = connection.prepareStatement(query);
-
+           
 			prepare.setString(1, register.getName());
 			prepare.setString(2, register.getPassword());
 			prepare.setString(3, register.getConfirmpassword());
 			prepare.setString(4, register.getEmail());
 			prepare.setString(5, register.getContactno());
+			 prepare.setInt(6, register.getId());
 			int execute = prepare.executeUpdate();
 			System.out.println(execute);
 		} catch (ClassNotFoundException | SQLException e) {
@@ -44,17 +47,21 @@ public class RegisterDetails implements Register {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(query);
 			while (rs.next()) {
+			  
 				String name = rs.getString("name");
 				String password = rs.getString("password");
 				String confirmpassword = rs.getString("confirmpassword");
 				String email = rs.getString("email");
 				String contactno = rs.getString("contactno");
+				 int id=rs.getInt("id");
 				RegisterPojo register = new RegisterPojo();
+				
 				register.setName(name);
 				register.setPassword(password);
 				register.setConfirmpassword(confirmpassword);
 				register.setEmail(email);
 				register.setContactno(contactno);
+				register.setId(id);
 				list.add(register);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -63,5 +70,103 @@ public class RegisterDetails implements Register {
 		}
 		return list;
 
-	}	
+	}
+
+		public void deleteRegister(int id) throws ClassNotFoundException, SQLException {
+	        String deleteQuery="delete from register where id=?";
+	        PreparedStatement prepare=Jdbc.getConnection().prepareStatement(deleteQuery);
+	        prepare.setInt(1, id);
+	        prepare.executeUpdate();
+	    }
 }
+		
+	
+
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+

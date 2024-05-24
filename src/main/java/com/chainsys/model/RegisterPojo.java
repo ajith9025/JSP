@@ -1,24 +1,28 @@
 package com.chainsys.model;
 
 public class RegisterPojo {
-	
+
 	String name;
 	String password;
 	String confirmpassword;
 	String email;
 	String contactno;
+	int id;
 	public RegisterPojo() {
 		
 	}
 		
-	public RegisterPojo(String name, String password, String confirmpassword, String email, String contactno) {
+	public RegisterPojo(String name, String password, String confirmpassword, String email, String contactno,int id) {
 		super();
+		
 		this.name = name;
 		this.password = password;
 		this.confirmpassword = confirmpassword;
 		this.email = email;
 		this.contactno = contactno;
+		this.id=id;
 	}
+	
 	
 	public String getName() {
 		return name;
@@ -50,12 +54,27 @@ public class RegisterPojo {
 	public void setContactno(String contactno) {
 		this.contactno = contactno;
 	}
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {
 		return "RegisterPojo [name=" + name + ", password=" + password + ", confirmpassword=" + confirmpassword
-				+ ", email=" + email + ", contactno=" + contactno + "]";
+				+ ", email=" + email + ", contactno=" + contactno + ", id=" + id + "]";
 	}
+
+	
+
+
+
+
+
+	
 	
 	
 	

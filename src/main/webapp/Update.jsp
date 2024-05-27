@@ -51,7 +51,7 @@
 <body>
 <div class="container">
         <h2>Update RegisterDetails</h2>
-        <form action="UpdateRegister" method="get">
+        <form action="UpdataeServlet" method="get">
       
             <div class="form-group">
                 <label for="name">Name:</label>

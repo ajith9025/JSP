@@ -1,17 +1,23 @@
 <%@page import="com.chainsys.model.RegisterPojo"%>
-
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
  <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
+<%
+if (session == null) {
+    response.sendRedirect("Login.jsp");
+    return;
+}
+
+
+%>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Register Table</title>
 </head>
 <style>
- <style>
+ 
         table {
             border-collapse: collapse;
             width: 50%;
@@ -83,7 +89,7 @@
             <td><%= item.getContactno() %></td>
             <td><%= item.getId() %></td>
              <td>
-                            <form action="chainsysA" method="post">
+                            <form action="ChainsysA" method="post">
                                 <input type="hidden" name="action" value="Delete">
                                 <input type="hidden" name="deleteid" value="<%=item.getId()%>">
                                 <button type="submit" title="Delete">Delete</button>
@@ -91,7 +97,7 @@
                             </form>
                         </td>
                           <td>
-                          
+                        
                         <input type="hidden" name="action" value="update">
                          <input type="hidden" name="editid" value="<%= item.getId() %>">
                          <button class="edit-btn" type="button" onclick="location.href = 'Update.jsp?editid=<%=item.getId()%>'">Edit</button>

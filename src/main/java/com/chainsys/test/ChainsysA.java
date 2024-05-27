@@ -1,25 +1,19 @@
 package com.chainsys.test;
 
 import java.io.IOException;
-import java.lang.NumberFormatException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.catalina.User;
 
 import com.chainsys.dao.RegisterDetails;
 import com.chainsys.model.RegisterPojo;
-import com.chainsys.util.Jdbc;
+
 
 /**
  * Servlet implementation class ChainsysA
@@ -36,29 +30,21 @@ public class ChainsysA extends HttpServlet {
      */
     public ChainsysA() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    private static ArrayList<RegisterPojo> list = new ArrayList<RegisterPojo>();
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	  response.getWriter().append("Served at: ").append(request.getContextPath());
 	  String name= request.getParameter("name");
 	  String password= request.getParameter("password");
 	  String confirmpassword= request.getParameter("confirm password");
 	  String email= request.getParameter("email");
 	  String contactno=request.getParameter("contact no");
 	  int id=Integer.parseInt(request.getParameter("id"));
-	  /*PrintWriter out=response.getWriter();
-	  out.println(name);
-	  out.println(password);
-	  out.println(confirmpassword);
-	  out.println(email);
-	  out.println(contactno);*/
-	 
 	  register.setName(name); 
 	  register.setPassword(password);
 	  register.setConfirmpassword(confirmpassword);
@@ -67,6 +53,8 @@ public class ChainsysA extends HttpServlet {
 	  register.setId(id);
 	  try {
 		details.saveRegister(register);
+		 
+
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -74,9 +62,18 @@ public class ChainsysA extends HttpServlet {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	  System.out.println("list");
-	  RegisterPojo register = new RegisterPojo(name,password,confirmpassword,email,contactno,id);
-	  list.add(register);
+	  request.setAttribute("list",register);
+	  ArrayList<RegisterPojo> list=null;
+	  try {
+			
+			 list=details.getAllRegister();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	 
       request.setAttribute("list",list);
 	  RequestDispatcher dispatcher = request.getRequestDispatcher("table.jsp");
 	  dispatcher.forward(request, response);
@@ -86,32 +83,26 @@ public class ChainsysA extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 		String action = request.getParameter("action");
         if(action != null && action.equals("Delete")) {
                     int id=Integer.parseInt(request.getParameter("deleteid"));
             try {
-                details.deleteRegister(id);
+                
+				 details.deleteRegister(id);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-          /*ArrayList<RegisterPojo> list = null;
-            try {
-                list= details.getAllUsers();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }*/
-           // request.setAttribute("list",list);
+            
             request.getRequestDispatcher("table.jsp").forward(request, response);
+            }
         }
-
+		
 	}
-}
+
 
 
 

@@ -14,9 +14,9 @@ public class RegisterDetails implements Register {
 
 
 
-	public void saveRegister(RegisterPojo register) throws SQLException, ClassNotFoundException {
+	public static void saveRegister(RegisterPojo register) throws SQLException, ClassNotFoundException {
 
-		// Connection con;
+		Connection con;
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		try {
 			Connection connection = Jdbc.getConnection();
@@ -28,57 +28,75 @@ public class RegisterDetails implements Register {
 			prepare.setString(3, register.getConfirmpassword());
 			prepare.setString(4, register.getEmail());
 			prepare.setString(5, register.getContactno());
-			 prepare.setInt(6, register.getId());
+			prepare.setInt(6, register.getId());
 			int execute = prepare.executeUpdate();
 			System.out.println(execute);
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}
 	}
 
-	public static ArrayList<RegisterPojo> getAllRegister() {
+	public ArrayList<RegisterPojo> getAllRegister()throws SQLException, ClassNotFoundException {
 		Connection con;
 		ArrayList<RegisterPojo> list= new ArrayList<RegisterPojo>();
-		try {
+	try {
 			Connection connection = Jdbc.getConnection();
-			String query = "select * from register";
+			String query = "select name,password,confirm_password,email,contact_no,id from register";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(query);
 			while (rs.next()) {
 			  
 				String name = rs.getString("name");
 				String password = rs.getString("password");
-				String confirmpassword = rs.getString("confirmpassword");
+				String confirm_password = rs.getString("confirm_password");
 				String email = rs.getString("email");
-				String contactno = rs.getString("contactno");
+				String contact_no = rs.getString("contact_no");
 				 int id=rs.getInt("id");
 				RegisterPojo register = new RegisterPojo();
 				
 				register.setName(name);
 				register.setPassword(password);
-				register.setConfirmpassword(confirmpassword);
+				register.setConfirmpassword(confirm_password);
 				register.setEmail(email);
-				register.setContactno(contactno);
+				register.setContactno(contact_no);
 				register.setId(id);
 				list.add(register);
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+	}
+		
+		catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
 
+
 	}
 
-		public void deleteRegister(int id) throws ClassNotFoundException, SQLException {
-	        String deleteQuery="delete from register where id=?";
-	        PreparedStatement prepare=Jdbc.getConnection().prepareStatement(deleteQuery);
-	        prepare.setInt(1, id);
-	        prepare.executeUpdate();
-	    }
+	
+	/*public void deleteRegister(int id) throws ClassNotFoundException, SQLException {
+        String deleteQuery="delete from register where id=?";
+        PreparedStatement prepare=Jdbc.getConnection().prepareStatement(deleteQuery);
+        prepare.setInt(1,id);
+        prepare.executeUpdate();
+    }	*/
+   
+	public ArrayList<RegisterPojo> deleteRegister(int id) throws ClassNotFoundException, SQLException {
+		 Connection con;
+	        con = Jdbc.getConnection();
+	        String query="DELETE from register WHERE id=?";
+	        PreparedStatement statement = con.prepareStatement(query);
+	        statement.setInt(1, id);
+	        int executeUpdate = statement.executeUpdate();
+	        System.out.println(executeUpdate);
+	        ArrayList<RegisterPojo> allUsers = getAllRegister();
+	        return allUsers;
+		
+	}
+	
 }
+
 		
 	
 

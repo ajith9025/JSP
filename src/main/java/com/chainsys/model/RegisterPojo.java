@@ -1,5 +1,7 @@
 package com.chainsys.model;
 
+import java.util.ArrayList;
+
 public class RegisterPojo {
 
 	String name;
@@ -67,15 +69,4 @@ public class RegisterPojo {
 		return "RegisterPojo [name=" + name + ", password=" + password + ", confirmpassword=" + confirmpassword
 				+ ", email=" + email + ", contactno=" + contactno + ", id=" + id + "]";
 	}
-
-	
-
-
-
-
-
-	
-	
-	
-	
 }
